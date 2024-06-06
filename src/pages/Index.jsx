@@ -159,15 +159,12 @@ const Index = () => {
     if (gameState === "playing") {
       initGame();
       draw();
+      window.addEventListener("keydown", handleKeyDown);
     }
-  }, [gameState]);
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [gameState]);
 
   const startGame = () => {
     setGameState("playing");
