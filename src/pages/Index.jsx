@@ -132,12 +132,27 @@ const Index = () => {
     }
   };
 
+  useEffect(() => {
+    if (gameState === "playing") {
+      initGame();
+      draw();
+    }
+  }, [gameState]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
       paddleX = Math.min(paddleX + 7, canvasRef.current.width - paddleWidth);
     } else if (e.key === "ArrowLeft") {
       paddleX = Math.max(paddleX - 7, 0);
     }
+    draw();
   };
 
   useEffect(() => {
