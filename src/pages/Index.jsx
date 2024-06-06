@@ -110,15 +110,16 @@ const Index = () => {
       if (ballX > paddleX && ballX < paddleX + paddleWidth) {
         ballDY = -ballDY;
       } else {
-        setLives((prevLives) => prevLives - 1);
-        if (lives - 1 === 0) {
-          setGameState("gameover");
-        } else {
+        if (lives > 1) {
+          setLives((prevLives) => prevLives - 1);
           ballX = canvasRef.current.width / 2;
           ballY = canvasRef.current.height - 30;
           ballDX = 2;
           ballDY = -2;
           paddleX = (canvasRef.current.width - paddleWidth) / 2;
+        } else {
+          setLives(0);
+          setGameState("gameover");
         }
       }
     }
@@ -133,15 +134,9 @@ const Index = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
-      paddleX += 7;
-      if (paddleX + paddleWidth > canvasRef.current.width) {
-        paddleX = canvasRef.current.width - paddleWidth;
-      }
+      paddleX = Math.min(paddleX + 7, canvasRef.current.width - paddleWidth);
     } else if (e.key === "ArrowLeft") {
-      paddleX -= 7;
-      if (paddleX < 0) {
-        paddleX = 0;
-      }
+      paddleX = Math.max(paddleX - 7, 0);
     }
   };
 
